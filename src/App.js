@@ -15,7 +15,8 @@ class App extends React.Component {
             name: null,
             newCommentText: null,
             totalPages: [],
-            currentPage: null
+            currentPage: null,
+            disableButton: false
         }
     }
 
@@ -86,6 +87,9 @@ class App extends React.Component {
             }))
     };
 
+    disableButton = () => {
+        return this.setState({disableButton: true});
+    };
 
     onChangeName = event => {
         this.setState({name: event.target.value})
@@ -100,18 +104,25 @@ class App extends React.Component {
         e.preventDefault();
 
         this.setState(state => {
-            mainAPI.getCommentsData(state.currentPage)
-                .then(data => {
-                    debugger
-                    this.setState( {
-                        comments: [...state.comments, ...data.data]
-                    }
-                );
-            return {
-                ...state,
+            if (state.currentPage === 4) {
+                this.disableButton();
+                console.log('buttondisabled');
+            } else {
+                mainAPI.getCommentsData(state.currentPage++)
+                    .then(data => {
+                        debugger
+                        this.setState( {
+                                comments: [...state.comments.concat(data.data)]
+                            }
+                        );
+                        return {
+                            ...state,
 
+                        }
+                    });
             }
-        });
+
+
     })};
 
     render() {
@@ -131,6 +142,7 @@ class App extends React.Component {
                           currentPage={this.state.currentPage}
                           onPageChanged={this.onPageChanged.bind(this)}
                           moreComments={this.moreComments.bind(this)}
+                          disableButton={this.state.disableButton}
                 />
             </div>
         );

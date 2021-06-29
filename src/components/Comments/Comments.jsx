@@ -17,7 +17,7 @@ const Comments = (props) => {
             </ul>
 
             <button onClick={props.getComments}>Get comments</button>
-            <button onClick={props.moreComments}>Get more comments</button>
+            <button onClick={props.moreComments} disabled={props.disableButton}>Get more comments</button>
 
         </div>
     );
