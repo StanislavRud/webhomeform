@@ -1,0 +1,26 @@
+.block_comments {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.block_comments li {
+    list-style: none;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-top: 25px;
+    padding: 10px;
+}
+
+.block_comments li p {
+    word-wrap: break-word;
+}
+
+
+
+.selectedPage {
+    font-weight: bold;
+}
+
+.itemPage:hover {
+    cursor: pointer;
+}

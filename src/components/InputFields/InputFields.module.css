@@ -1,0 +1,12 @@
+.inputForm {
+    width: 25%;
+    margin: 0 auto;
+}
+
+.inputForm input {
+    margin-top: 25px;
+}
+
+.inputForm button {
+    margin-top: 25px;
+}
