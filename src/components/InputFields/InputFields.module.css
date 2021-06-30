@@ -1,12 +1,23 @@
 .inputForm {
-    width: 25%;
-    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin: 25px auto;
 }
 
-.inputForm input {
-    margin-top: 25px;
+
+
+.inputForm input, textarea {
+    margin: 10px 0;
 }
 
 .inputForm button {
-    margin-top: 25px;
+    /*margin-top: 25px;*/
+}
+
+.inputForm textarea {
+    resize: none;
+    width: 100%;
+    height: 120px;
 }

@@ -6,24 +6,33 @@ const InputFields = (props) => {
     return (
 
         <form className={style.inputForm}>
-            <input type={'text'}
-                   value={props.name}
-                   onChange={props.onChangeName}
-                   placeholder={'Input your name'}
-                   required={true}
-            />
+            <label>Name:
+                <input type={'text'}
+                       value={props.name}
+                       onChange={props.onChangeName}
+                       placeholder={'Input your name'}
+                       required={true}
+                />
+            </label>
 
-            <input type={'text'}
-                   value={props.newCommentText}
-                   onChange={props.onChangeText}
-                   placeholder={'Input your comment'}
-                   required={true}
-            />
+            <label>Comment:
+                <textarea
+                    value={props.newCommentText}
+                    onChange={props.onChangeText}
+                    placeholder={'Input your comment'}
+                    required={true}
+                />
+            </label>
 
-            <button type={'submit'} onClick={(e) => {
+
+            {props.name && props.newCommentText ? <button type={'submit'} onClick={(e) => {
                 e.preventDefault();
                 props.postComment();
-            }}>Add comment</button>
+            }}>Add comment</button> : <button type={'submit'} onClick={(e) => {
+                e.preventDefault();
+                props.postComment();
+            }} disabled={true}>Add comment</button>}
+
 
         </form>
     );

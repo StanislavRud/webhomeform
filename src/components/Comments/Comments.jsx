@@ -12,12 +12,16 @@ const Comments = (props) => {
                          currentPage={props.currentPage}
                          totalPages={props.totalPages}
                          onPageChanged={props.onPageChanged}
+                         createdComment={props.createdComment}
                 />
 
             </ul>
+            <div className={style.buttonsBlock}>
+                {!props.hideButton ? <button onClick={props.getComments}>Show comments</button> : ''}
 
-            <button onClick={props.getComments}>Get comments</button>
-            <button onClick={props.moreComments} disabled={props.disableButton}>Get more comments</button>
+                {props.hideButton ? <button onClick={props.moreComments} disabled={props.disableButton}>Show more comments</button> : ''}
+            </div>
+
 
         </div>
     );

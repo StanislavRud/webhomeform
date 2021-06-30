@@ -1,6 +1,7 @@
 .block_comments {
     width: 50%;
     margin: 0 auto;
+    padding: 0;
 }
 
 .block_comments li {
@@ -23,4 +24,11 @@
 
 .itemPage:hover {
     cursor: pointer;
+}
+
+.buttonsBlock {
+    width: 25%;
+    margin: 25px auto;
+    display: flex;
+    justify-content: space-around;
 }

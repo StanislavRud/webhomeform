@@ -12,20 +12,22 @@ class App extends React.Component {
 
         this.state = {
             comments: [],
-            name: null,
-            newCommentText: null,
+            name: '',
+            newCommentText: '',
             totalPages: [],
             currentPage: null,
-            disableButton: false
+            disableButton: false,
+            hideButton: false,
+            lastPage: null,
+            disablePostBtn: true,
+            createdComment:''
         }
     }
 
-    // onChangeComment = event => {
-    //     this.setState({name: event.target.value, newComment: event.target.value})
-    // };
 
     getComments = (e) => {
         e.preventDefault();
+
         this.setState(state => {
             mainAPI.getCommentsData()
                 .then(data => {
@@ -34,15 +36,17 @@ class App extends React.Component {
                             {
                                 id: item.id,
                                 name: item.name,
-                                text: item.text
+                                text: item.text,
+                                createdComment: item.created_at
                             }
                         )),
                         totalPages: data.total,
-                        currentPage: data.current_page
+                        currentPage: data.current_page,
+                        hideButton: true,
+                        lastPage: data.last_page
                     })
 
                 });
-            debugger
             return {
                 ...state
             }
@@ -51,7 +55,6 @@ class App extends React.Component {
     };
 
     onPageChanged = (pageNumber) => {
-        // this.setState(this.state.comments = []);
         this.setState(state => {
             mainAPI.getCommentsData(pageNumber)
                 .then(data => {
@@ -60,7 +63,8 @@ class App extends React.Component {
                             {
                                 id: item.id,
                                 name: item.name,
-                                text: item.text
+                                text: item.text,
+                                createdComment: item.created_at
                             }
                         )),
                         totalPages: data.total,
@@ -78,13 +82,18 @@ class App extends React.Component {
     postComment = () => {
         let name = this.state.name;
         let text = this.state.newCommentText;
-        debugger
-        mainAPI.postComments(name, text)
-            .then(data => console.log(data))
-            .then(this.setState({
-                name: '',
-                newCommentText: ''
-            }))
+
+        if (this.state.name != '' && this.state.newCommentText != '') {
+            mainAPI.postComments(name, text)
+                .then(data => console.log(data))
+                .then(this.setState({
+                    name: '',
+                    newCommentText: ''
+                }))
+        } else {
+            alert('Please input all fields')
+        }
+
     };
 
     disableButton = () => {
@@ -92,26 +101,25 @@ class App extends React.Component {
     };
 
     onChangeName = event => {
-        this.setState({name: event.target.value})
+        this.setState({name: event.target.value});
     };
 
     onChangeText = event => {
-        this.setState({newCommentText: event.target.value})
+        this.setState({newCommentText: event.target.value});
     };
 
     moreComments = (e) => {
-        debugger
+
         e.preventDefault();
 
         this.setState(state => {
-            if (state.currentPage === 4) {
+            if (state.currentPage >= state.lastPage) {
                 this.disableButton();
-                console.log('buttondisabled');
             } else {
                 mainAPI.getCommentsData(state.currentPage++)
                     .then(data => {
                         debugger
-                        this.setState( {
+                        this.setState({
                                 comments: [...state.comments.concat(data.data)]
                             }
                         );
@@ -121,9 +129,8 @@ class App extends React.Component {
                         }
                     });
             }
-
-
-    })};
+        })
+    };
 
     render() {
 
@@ -143,6 +150,8 @@ class App extends React.Component {
                           onPageChanged={this.onPageChanged.bind(this)}
                           moreComments={this.moreComments.bind(this)}
                           disableButton={this.state.disableButton}
+                          hideButton={this.state.hideButton}
+                          createdComment={this.state.createdComment}
                 />
             </div>
         );
