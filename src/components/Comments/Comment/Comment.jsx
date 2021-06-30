@@ -4,10 +4,11 @@ import Paginator from "../Paginator/Paginator";
 
 const Comment = (props) => {
 
-
+debugger
     let date = (value) => new Date(`${value}`).toLocaleDateString()
 
     return (
+
         <div>
             <h1>Comments</h1>
 

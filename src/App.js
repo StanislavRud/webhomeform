@@ -15,12 +15,12 @@ class App extends React.Component {
             name: '',
             newCommentText: '',
             totalPages: [],
-            currentPage: null,
+            currentPage: 1,
             disableButton: false,
             hideButton: false,
-            lastPage: null,
+            lastPage: '',
             disablePostBtn: true,
-            createdComment:''
+            createdComment: ''
         }
     }
 
@@ -29,7 +29,7 @@ class App extends React.Component {
         e.preventDefault();
 
         this.setState(state => {
-            mainAPI.getCommentsData()
+            mainAPI.getCommentsData(state.currentPage)
                 .then(data => {
                     this.setState({
                         comments: data.data.map(item => (
@@ -47,6 +47,7 @@ class App extends React.Component {
                     })
 
                 });
+            debugger
             return {
                 ...state
             }
@@ -68,11 +69,11 @@ class App extends React.Component {
                             }
                         )),
                         totalPages: data.total,
-                        currentPage: data.current_page
+                        currentPage: data.current_page,
                     })
 
                 });
-
+            debugger
             return {
                 ...state
             }
@@ -111,25 +112,30 @@ class App extends React.Component {
     moreComments = (e) => {
 
         e.preventDefault();
+        this.setState(state => {currentPage: state.currentPage++});
 
-        this.setState(state => {
-            if (state.currentPage >= state.lastPage) {
-                this.disableButton();
-            } else {
-                mainAPI.getCommentsData(state.currentPage++)
+        if (this.state.currentPage >= this.state.lastPage) {
+            this.disableButton();
+        } else {
+
+            this.setState(state => {
+                mainAPI.getCommentsData(state.currentPage)
                     .then(data => {
                         debugger
                         this.setState({
-                                comments: [...state.comments.concat(data.data)]
+                                comments: [...state.comments, ...data.data],
+
                             }
                         );
+                        debugger
                         return {
                             ...state,
 
                         }
                     });
-            }
-        })
+            })
+
+        }
     };
 
     render() {
