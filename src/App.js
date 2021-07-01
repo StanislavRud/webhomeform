@@ -20,7 +20,6 @@ class App extends React.Component {
             hideButton: false,
             lastPage: '',
             disablePostBtn: true,
-            createdComment: ''
         }
     }
 
@@ -32,14 +31,7 @@ class App extends React.Component {
             mainAPI.getCommentsData(state.currentPage)
                 .then(data => {
                     this.setState({
-                        comments: data.data.map(item => (
-                            {
-                                id: item.id,
-                                name: item.name,
-                                text: item.text,
-                                createdComment: item.created_at
-                            }
-                        )),
+                        comments: data.data,
                         totalPages: data.total,
                         currentPage: data.current_page,
                         hideButton: true,
@@ -47,7 +39,6 @@ class App extends React.Component {
                     })
 
                 });
-            debugger
             return {
                 ...state
             }
@@ -60,20 +51,12 @@ class App extends React.Component {
             mainAPI.getCommentsData(pageNumber)
                 .then(data => {
                     this.setState({
-                        comments: data.data.map(item => (
-                            {
-                                id: item.id,
-                                name: item.name,
-                                text: item.text,
-                                createdComment: item.created_at
-                            }
-                        )),
+                        comments: data.data,
                         totalPages: data.total,
                         currentPage: data.current_page,
                     })
 
                 });
-            debugger
             return {
                 ...state
             }
@@ -109,34 +92,34 @@ class App extends React.Component {
         this.setState({newCommentText: event.target.value});
     };
 
+
     moreComments = (e) => {
 
         e.preventDefault();
-        this.setState(state => {currentPage: state.currentPage++});
 
-        if (this.state.currentPage >= this.state.lastPage) {
-            this.disableButton();
-        } else {
+        this.setState(state => {
+            currentPage: state.currentPage++;
+            mainAPI.getCommentsData((state.currentPage))
 
-            this.setState(state => {
-                mainAPI.getCommentsData(state.currentPage)
-                    .then(data => {
-                        debugger
-                        this.setState({
-                                comments: [...state.comments, ...data.data],
-
-                            }
-                        );
-                        debugger
-                        return {
-                            ...state,
-
+                .then(data => {
+                    this.setState({
+                            comments: [...state.comments, ...data.data],
                         }
-                    });
-            })
+                    );
 
-        }
+                    return {
+                        ...state,
+
+                    }
+                });
+        })
+
     };
+
+    date = (value) => {
+        return new Date(value).toLocaleDateString()
+    };
+
 
     render() {
 
@@ -157,7 +140,8 @@ class App extends React.Component {
                           moreComments={this.moreComments.bind(this)}
                           disableButton={this.state.disableButton}
                           hideButton={this.state.hideButton}
-                          createdComment={this.state.createdComment}
+                          lastPage={this.state.lastPage}
+                          date={this.date.bind(this)}
                 />
             </div>
         );

@@ -6,7 +6,6 @@ const instance = axios.create({
 
 export const mainAPI = {
     getCommentsData(currentPage){
-        debugger
         return instance.get(`comments?page=${currentPage}`)
             .then(response => {
                 return response.data

@@ -1,32 +1,29 @@
 import React from 'react';
-
+import style from './../Comments.module.css';
 import Paginator from "../Paginator/Paginator";
 
-const Comment = (props) => {
-
-debugger
-    let date = (value) => new Date(`${value}`).toLocaleDateString()
+const Comment = ({hideButton, currentPage, lastPage, onPageChanged, comments, date}) => {
 
     return (
 
         <div>
-            <h1>Comments</h1>
+            <h1 className={!hideButton ? style.disable : style.active}>Comments</h1>
 
-            <Paginator currentPage={props.currentPage}
-                       totalPages={props.totalPages}
-                       onPageChanged={props.onPageChanged}
+            <Paginator currentPage={currentPage}
+                       lastPage={lastPage}
+                       onPageChanged={onPageChanged}
             />
-
-            {props.comments.map(item => (<div>
+            <ul>
+                {comments.map(item => (
 
                     <li key={item.id}>
                         <h3>Name: {item.name}</h3>
                         <p>Text: {item.text}</p>
-                        <p>Created: {date(item.createdComment)}</p>
+                        <p>Created: {date(item.created_at)}</p>
                     </li>
-                </div>
-            ))}
 
+                ))}
+            </ul>
 
         </div>
     );

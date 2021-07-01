@@ -1,25 +1,27 @@
 import React from 'react';
-import style from './Comment.module.css'
+import style from './Comments.module.css'
 import Comment from "./Comment/Comment";
 
-const Comments = (props) => {
-
+const Comments = ({comments, currentPage, onPageChanged, lastPage, hideButton, date, getComments, moreComments }) => {
     return (
         <div>
             <ul className={style.block_comments}>
 
-                <Comment comments={props.comments}
-                         currentPage={props.currentPage}
-                         totalPages={props.totalPages}
-                         onPageChanged={props.onPageChanged}
-                         createdComment={props.createdComment}
+                <Comment comments={comments}
+                         currentPage={currentPage}
+                         onPageChanged={onPageChanged}
+                         lastPage={lastPage}
+                         hideButton={hideButton}
+                         date={date}
                 />
 
             </ul>
             <div className={style.buttonsBlock}>
-                {!props.hideButton ? <button onClick={props.getComments}>Show comments</button> : ''}
+                {!hideButton ? <button onClick={getComments}>Show comments</button> : ''}
+                {currentPage != lastPage ?
+                    <button className={!hideButton ? style.disable : style.active}
+                            onClick={moreComments}>Show more comments</button> : ''}
 
-                {props.hideButton ? <button onClick={props.moreComments} disabled={props.disableButton}>Show more comments</button> : ''}
             </div>
 
 

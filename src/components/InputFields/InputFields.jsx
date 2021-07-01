@@ -1,15 +1,15 @@
 import React from 'react';
 import style from './InputFields.module.css'
 
-const InputFields = (props) => {
+const InputFields = ({name, onChangeName, newCommentText, onChangeText, postComment}) => {
 
     return (
 
         <form className={style.inputForm}>
             <label>Name:
                 <input type={'text'}
-                       value={props.name}
-                       onChange={props.onChangeName}
+                       value={name}
+                       onChange={onChangeName}
                        placeholder={'Input your name'}
                        required={true}
                 />
@@ -17,22 +17,20 @@ const InputFields = (props) => {
 
             <label>Comment:
                 <textarea
-                    value={props.newCommentText}
-                    onChange={props.onChangeText}
+                    value={newCommentText}
+                    onChange={onChangeText}
                     placeholder={'Input your comment'}
                     required={true}
                 />
             </label>
 
-
-            {props.name && props.newCommentText ? <button type={'submit'} onClick={(e) => {
+            {name && newCommentText ? <button type={'submit'} onClick={(e) => {
                 e.preventDefault();
-                props.postComment();
+                postComment();
             }}>Add comment</button> : <button type={'submit'} onClick={(e) => {
                 e.preventDefault();
-                props.postComment();
+                postComment();
             }} disabled={true}>Add comment</button>}
-
 
         </form>
     );
