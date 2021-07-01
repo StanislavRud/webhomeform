@@ -2,7 +2,8 @@ import React from 'react';
 import style from './Comments.module.css'
 import Comment from "./Comment/Comment";
 
-const Comments = ({comments, currentPage, onPageChanged, lastPage, hideButton, date, getComments, moreComments}) => {
+const Comments = ({comments, currentPage, onPageChanged, lastPage, hideButton, date, getComments, moreComments,upBtn}) => {
+
     return (
         <div>
             <ul className={style.block_comments}>
@@ -13,6 +14,7 @@ const Comments = ({comments, currentPage, onPageChanged, lastPage, hideButton, d
                          lastPage={lastPage}
                          hideButton={hideButton}
                          date={date}
+
                 />
 
             </ul>
@@ -21,7 +23,7 @@ const Comments = ({comments, currentPage, onPageChanged, lastPage, hideButton, d
                 {currentPage !== lastPage ?
                     <button className={!hideButton ? style.disable : style.active}
                             onClick={moreComments}>Show more comments</button> : ''}
-                {comments.length >= 6 ? <button className={style.topBtn} onClick={() => window.scroll({
+                {comments.length >= 6 ? <button className={upBtn ? style.topBtn : ''} onClick={() => window.scroll({
                     top: 0,
                     left: 0,
                     behavior: 'smooth'

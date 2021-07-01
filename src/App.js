@@ -20,7 +20,8 @@ class App extends React.Component {
             hideButton: false,
             lastPage: '',
             disablePostBtn: true,
-            upBtn: false
+            upBtn: false,
+            scrolling: false
         }
     }
 
@@ -121,20 +122,24 @@ class App extends React.Component {
         return new Date(value).toLocaleDateString()
     };
 
+    componentDidMount() {
+        window.addEventListener('scroll', this.showBtnUp);
+    }
 
 
-    showBtnUp = (e) => {
-        e.preventDefault();
-        this.setState({upBtn: true});
-        console.log('scroll')
+    showBtnUp = () => {
+        if (window.scrollY >= 100) {
+            this.setState({upBtn: true});
+        } else {
+            this.setState({upBtn: false});
+        }
 
     };
-
 
     render() {
 
         return (
-            <div className="App" onScroll={this.showBtnUp.bind(this)}>
+            <div className="App">
                 <InputFields postComment={this.postComment.bind(this)}
                              onChangeName={this.onChangeName.bind(this)}
                              onChangeText={this.onChangeText.bind(this)}
@@ -152,6 +157,7 @@ class App extends React.Component {
                           hideButton={this.state.hideButton}
                           lastPage={this.state.lastPage}
                           date={this.date.bind(this)}
+                          upBtn={this.state.upBtn}
                 />
             </div>
         );
