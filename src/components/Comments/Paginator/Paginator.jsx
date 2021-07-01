@@ -1,10 +1,10 @@
 import React from 'react';
 import style from "./Paginator.module.css";
 
-const Paginator = (props) => {
+const Paginator = ({lastPage, currentPage, onPageChanged}) => {
 
     let pages = [];
-    for (let i = 1; i <= props.lastPage; i++) {
+    for (let i = 1; i <= lastPage; i++) {
         pages.push(i)
     }
 
@@ -12,7 +12,7 @@ const Paginator = (props) => {
         <div className={style.paginator}>
             {pages.map(p => {
                 return (
-                    <span key={p} className={props.currentPage === p && style.selectedPage} onClick={() => props.onPageChanged(p)}>{p + ' '}</span>
+                    <span key={p} className={currentPage === p ? style.selectedPage : ''} onClick={() => onPageChanged(p)}>{p}</span>
                 )
             })}
         </div>

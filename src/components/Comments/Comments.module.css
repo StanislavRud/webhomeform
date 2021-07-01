@@ -17,11 +17,6 @@
 }
 
 
-
-.selectedPage {
-    font-weight: bold;
-}
-
 .itemPage:hover {
     cursor: pointer;
 }
@@ -37,4 +32,11 @@
 }
 .active {
     display: block;
+}
+
+.topBtn {
+    position: fixed;
+    top: 90%;
+    left: 40px;
+    padding: 10px;
 }

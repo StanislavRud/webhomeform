@@ -20,6 +20,7 @@ class App extends React.Component {
             hideButton: false,
             lastPage: '',
             disablePostBtn: true,
+            upBtn: false
         }
     }
 
@@ -67,7 +68,7 @@ class App extends React.Component {
         let name = this.state.name;
         let text = this.state.newCommentText;
 
-        if (this.state.name != '' && this.state.newCommentText != '') {
+        if (this.state.name !== '' && this.state.newCommentText !== '') {
             mainAPI.postComments(name, text)
                 .then(data => console.log(data))
                 .then(this.setState({
@@ -98,7 +99,7 @@ class App extends React.Component {
         e.preventDefault();
 
         this.setState(state => {
-            currentPage: state.currentPage++;
+            state.currentPage++;
             mainAPI.getCommentsData((state.currentPage))
 
                 .then(data => {
@@ -121,10 +122,19 @@ class App extends React.Component {
     };
 
 
+
+    showBtnUp = (e) => {
+        e.preventDefault();
+        this.setState({upBtn: true});
+        console.log('scroll')
+
+    };
+
+
     render() {
 
         return (
-            <div className="App">
+            <div className="App" onScroll={this.showBtnUp.bind(this)}>
                 <InputFields postComment={this.postComment.bind(this)}
                              onChangeName={this.onChangeName.bind(this)}
                              onChangeText={this.onChangeText.bind(this)}
