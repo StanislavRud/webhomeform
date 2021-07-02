@@ -18,7 +18,7 @@ const Comment = ({hideButton, currentPage, lastPage, onPageChanged, comments, da
 
                     <li key={item.id}>
                         <h3>Name: {item.name}</h3>
-                        <p>Text: {item.text}</p>
+                        <p>Comment: {item.text}</p>
                         <p>Created: {date(item.created_at)}</p>
                     </li>
 

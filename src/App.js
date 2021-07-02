@@ -69,9 +69,8 @@ class App extends React.Component {
         let name = this.state.name;
         let text = this.state.newCommentText;
 
-        if (this.state.name !== '' && this.state.newCommentText !== '') {
+        if (name !== '' && text !== '') {
             mainAPI.postComments(name, text)
-                .then(data => console.log(data))
                 .then(this.setState({
                     name: '',
                     newCommentText: ''
@@ -87,7 +86,8 @@ class App extends React.Component {
     };
 
     onChangeName = event => {
-        this.setState({name: event.target.value});
+        this.setState({name: event.target.value.trim().replace(/ +/g, ' ')});
+
     };
 
     onChangeText = event => {
@@ -140,23 +140,23 @@ class App extends React.Component {
 
         return (
             <div className="App">
-                <InputFields postComment={this.postComment.bind(this)}
-                             onChangeName={this.onChangeName.bind(this)}
-                             onChangeText={this.onChangeText.bind(this)}
+                <InputFields postComment={this.postComment}
+                             onChangeName={this.onChangeName}
+                             onChangeText={this.onChangeText}
                              name={this.state.name}
                              newCommentText={this.state.newCommentText}
 
                 />
-                <Comments getComments={this.getComments.bind(this)}
+                <Comments getComments={this.getComments}
                           comments={this.state.comments}
                           totalPages={this.state.totalPages}
                           currentPage={this.state.currentPage}
-                          onPageChanged={this.onPageChanged.bind(this)}
-                          moreComments={this.moreComments.bind(this)}
+                          onPageChanged={this.onPageChanged}
+                          moreComments={this.moreComments}
                           disableButton={this.state.disableButton}
                           hideButton={this.state.hideButton}
                           lastPage={this.state.lastPage}
-                          date={this.date.bind(this)}
+                          date={this.date}
                           upBtn={this.state.upBtn}
                 />
             </div>
